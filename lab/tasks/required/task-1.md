@@ -64,10 +64,12 @@ Start by reading the [official nanobot repository](https://github.com/HKUDS/nano
 
    `y = overwrite with defaults (existing values will be lost)` - Type `y` and press `Enter`.
 
-   Set up the **custom** provider (any OpenAI-compatible endpoint) and point it to the Qwen Code API:
-   - **Base URL:** `http://localhost:42005/v1`
-   - **API key:** your `QWEN_CODE_API_KEY` from `.env.docker.secret`
-   - **Default model:** `coder-model`
+   Set up the **custom** provider (any OpenAI-compatible endpoint) and point it to the `Qwen Code` API:
+   - **agents.defaults.workspace** `./workspace`
+   - **agents.defaults.model** `coder-model`
+   - **agents.defaults.provider** `custom`
+   - **providers.custom.apiKey** your `QWEN_CODE_API_KEY` from `.env.docker.secret`
+   - **providers.custom.apiBase** `http://localhost:42005/v1`
 
    This generates `config.json` and a `workspace/` directory in the current folder.
    Task 2 will Dockerize this same repo-local project.
