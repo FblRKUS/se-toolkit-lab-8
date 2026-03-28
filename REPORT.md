@@ -84,11 +84,22 @@ Let me know which lab you'd like to check!
 
 ## Task 2A — Deployed agent
 
-<!-- Paste a short nanobot startup log excerpt showing the gateway started inside Docker -->
+Startup log excerpt:
+```
+nanobot-1  | Config resolved to /app/nanobot/config.resolved.json
+nanobot-1  | Using config: /app/nanobot/config.resolved.json
+nanobot-1  | 🐈 Starting nanobot gateway version 0.1.4.post5 on port 18790...
+nanobot-1  | ✓ Channels enabled: webchat
+nanobot-1  | 2026-03-28 10:46:41.517 | INFO     | nanobot.agent.tools.mcp:connect_mcp_servers:246 - MCP server 'lms': connected, 9 tools registered
+nanobot-1  | 2026-03-28 10:46:43.148 | INFO     | nanobot.agent.tools.mcp:connect_mcp_servers:246 - MCP server 'webchat': connected, 1 tools registered
+nanobot-1  | 2026-03-28 10:46:43.148 | INFO     | nanobot.agent.loop:run:280 - Agent loop started
+```
 
 ## Task 2B — Web client
 
-<!-- Screenshot of a conversation with the agent in the Flutter web app -->
+The Flutter client is deployed and accessible at `/flutter`. It connects to nanobot via a WebSocket bridge at `/ws/chat`. The agent uses the `mcp-webchat` server to deliver structured UI components.
+
+![Flutter Client](./lab/images/tasks/required/task-2/image.png)
 
 ## Task 3A — Structured logging
 
