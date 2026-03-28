@@ -103,15 +103,42 @@ The Flutter client is deployed and accessible at `/flutter`. It connects to nano
 
 ## Task 3A — Structured logging
 
-<!-- Paste happy-path and error-path log excerpts, VictoriaLogs query screenshot -->
+Happy-path log excerpt (status 200):
+```
+backend-1  | 2026-03-28 11:03:37,781 INFO [lms_backend.main] [main.py:62] [trace_id=b02a003a7875efc4decad11beb101a19 span_id=758be0b8a39aa7dd resource.service.name=Learning Management Service trace_sampled=True] - request_started
+backend-1  | 2026-03-28 11:03:37,788 INFO [lms_backend.auth] [auth.py:30] [trace_id=b02a003a7875efc4decad11beb101a19 span_id=758be0b8a39aa7dd resource.service.name=Learning Management Service trace_sampled=True] - auth_success
+backend-1  | 2026-03-28 11:03:37,789 INFO [lms_backend.db.items] [items.py:16] [trace_id=b02a003a7875efc4decad11beb101a19 span_id=758be0b8a39aa7dd resource.service.name=Learning Management Service trace_sampled=True] - db_query
+backend-1  | 2026-03-28 11:03:37,882 INFO [lms_backend.main] [main.py:74] [trace_id=b02a003a7875efc4decad11beb101a19 span_id=758be0b8a39aa7dd resource.service.name=Learning Management Service trace_sampled=True] - request_completed
+backend-1  | INFO:     172.23.0.3:40516 - "GET /items/ HTTP/1.1" 200 OK
+```
+
+Error-path log excerpt (stopped postgres):
+```
+backend-1  | 2026-03-28 11:05:31,155 INFO [lms_backend.main] [main.py:62] [trace_id=8652c0bb5a2ab336cbd85b8e2e61c111 span_id=e91d7a85907640fc resource.service.name=Learning Management Service trace_sampled=True] - request_started
+backend-1  | 2026-03-28 11:05:31,159 INFO [lms_backend.db.items] [items.py:16] [trace_id=8652c0bb5a2ab336cbd85b8e2e61c111 span_id=e91d7a85907640fc resource.service.name=Learning Management Service trace_sampled=True] - db_query
+backend-1  | 2026-03-28 11:05:31,164 ERROR [lms_backend.db.items] [items.py:23] [trace_id=8652c0bb5a2ab336cbd85b8e2e61c111 span_id=e91d7a85907640fc resource.service.name=Learning Management Service trace_sampled=True] - db_query
+backend-1  | INFO:     172.23.0.3:51538 - "GET /items/ HTTP/1.1" 404 Not Found
+```
+
+![VictoriaLogs Query](./lab/images/tasks/required/task-3/3A.png)
 
 ## Task 3B — Traces
 
-<!-- Screenshots: healthy trace span hierarchy, error trace -->
+Healthy trace `b02a003a7875efc4decad11beb101a19` shows a complete span hierarchy with `db_query` and `auth_success`.
+Error trace `8652c0bb5a2ab336cbd85b8e2e61c111` shows a failure in the `SELECT db-lab-8` span with error message: `asyncpg.exceptions._base.InterfaceError: connection is closed`.
+
+![VictoriaTraces Healthy](./lab/images/tasks/required/task-3/3B-HEALTH.png)
+![VictoriaTraces Error](./lab/images/tasks/required/task-3/3B-ERROR.png)
 
 ## Task 3C — Observability MCP tools
 
-<!-- Paste agent responses to "any errors in the last hour?" under normal and failure conditions -->
+The `obs` MCP server provides tools to query VictoriaLogs and VictoriaTraces.
+
+**Agent response (Normal conditions):**
+"There are no LMS backend errors reported in the last 10 minutes. Everything seems to be functioning well!"
+
+**Agent response (Postgres stopped):**
+"There have been 3 errors in the Learning Management Service in the last 10 minutes. Would you like me to look into the details of these errors?"
 
 ## Task 4A — Multi-step investigation
 
