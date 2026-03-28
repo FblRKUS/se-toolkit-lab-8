@@ -185,6 +185,19 @@ All of these pieces are in a single repository. The webchat stack handles:
 
    All four live under `nanobot-websocket-channel/`.
 
+   If you use the repository root `uv` workspace tooling, also uncomment the
+   matching `nanobot-websocket-channel` Python package lines in the root
+   `pyproject.toml` under:
+
+   - `[tool.uv.workspace].members`
+   - `[tool.uv.sources]`
+
+   For this task, that usually means:
+
+   - `nanobot-websocket-channel/nanobot-channel-protocol`
+   - `nanobot-websocket-channel/mcp-webchat`
+   - `nanobot-websocket-channel/nanobot-webchat`
+
 2. Install the webchat channel plugin and the UI-delivery MCP server into your nanobot environment:
 
    ```terminal
